@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora de Usina Solar</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="script.js" defer></script>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+</head>
+<body>
+    <div class="container">
+        <h1>Calculadora Completa para Usina Solar</h1>
+        
+        <div class="calculator">
+            <!-- Localização -->
+            <div class="input-group">
+                <label for="address">Endereço ou Coordenadas (Lat, Long):</label>
+                <input type="text" id="address" placeholder="Ex: -23.5505, -46.6333">
+                <button id="search">Buscar</button>
+            </div>
+            
+            <!-- Configuração do Sistema -->
+            <div class="input-group">
+                <label for="area">Área disponível (m²):</label>
+                <input type="number" id="area" placeholder="Ex: 1000">
+            </div>
+            
+            <div class="input-group">
+                <label for="panel-type">Tipo de Painel:</label>
+                <select id="panel-type">
+                    <option value="330">330W (1.6m x 1m)</option>
+                    <option value="550" selected>550W (2.2m x 1.1m)</option>
+                    <option value="600">600W (2.4m x 1.2m)</option>
+                </select>
+            </div>
+            
+            <!-- Configurações Avançadas -->
+            <div class="input-group">
+                <label for="tilt">Inclinação (graus): <span id="optimal-tilt"></span></label>
+                <input type="range" id="tilt" min="0" max="90" value="20">
+                <span id="tilt-value">20°</span>
+            </div>
+            
+            <div class="input-group">
+                <label for="azimuth">Orientação (Azimute):</label>
+                <select id="azimuth">
+                    <option value="0">Norte (0°)</option>
+                    <option value="90">Leste (90°)</option>
+                    <option value="180" selected>Sul (180° - Ideal no Brasil)</option>
+                    <option value="270">Oeste (270°)</option>
+                </select>
+            </div>
+            
+            <div class="input-group">
+                <label for="spacing">Espaçamento entre fileiras (m):</label>
+                <input type="number" id="spacing" value="3" min="1" step="0.5">
+            </div>
+            
+            <!-- Cálculo Financeiro -->
+            <div class="input-group">
+                <label for="energy-cost">Custo da Energia (R$/kWh):</label>
+                <input type="number" id="energy-cost" value="0.80" step="0.01">
+            </div>
+            
+            <div class="input-group">
+                <label for="system-cost">Custo por Watt (R$/W):</label>
+                <input type="number" id="system-cost" value="4.50" step="0.01">
+            </div>
+            
+            <button id="calculate">Calcular Usina Solar</button>
+            
+            <!-- Resultados -->
+            <div id="results" class="hidden">
+                <h2>📊 Resultados do Projeto</h2>
+                
+                <div class="result-grid">
+                    <!-- Configuração da Usina -->
+                    <div class="result-item">
+                        <h3>Configuração do Sistema</h3>
+                        <p>Painéis instalados: <span id="panel-count">0</span></p>
+                        <p>Potência total: <span id="total-power">0</span> kWp</p>
+                        <p>Área ocupada: <span id="total-area">0</span> m²</p>
+                        <p>Ângulo ideal: <span id="optimal-angle">0°</span></p>
+                        <p>Espaçamento recomendado: <span id="optimal-spacing">0</span> m</p>
+                    </div>
+                    
+                    <!-- Geração de Energia -->
+                    <div class="result-item">
+                        <h3>Produção de Energia</h3>
+                        <p>Irradiância anual: <span id="irradiance">0</span> kWh/m²</p>
+                        <p>Geração mensal: <span id="energy-month">0</span> kWh</p>
+                        <p>Geração anual: <span id="energy-year">0</span> kWh</p>
+                    </div>
+                    
+                    <!-- Análise Financeira -->
+                    <div class="result-item">
+                        <h3>Retorno Financeiro</h3>
+                        <p>Custo total: R$ <span id="total-cost">0</span></p>
+                        <p>Economia anual: R$ <span id="annual-savings">0</span></p>
+                        <p>Payback: <span id="payback">0</span> anos</p>
+                        <p>ROI (10 anos): <span id="roi">0</span>%</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Mapa com Orientação Solar -->
+        <div id="map"></div>
+        <div id="solar-api-info">Dados de irradiação: NASA POWER API</div>
+    </div>
+    
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+</body>
+</html>
